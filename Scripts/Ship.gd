@@ -42,7 +42,8 @@ func get_input():
 func _integrate_forces(physics_state):
 	set_applied_force(thrust.rotated(rotation))
 	set_applied_torque(spin_power * rotation_dir)
-	screen_wrap(physics_state)
+	var transform = screen_wrap(physics_state.get_transform())
+	physics_state.set_transform(transform)
 
 func _on_GunTimer_timeout():
 	can_shoot = true
@@ -52,14 +53,13 @@ func shoot():
 	can_shoot = false
 	$GunTimer.start()
 
-func screen_wrap(physics_state):
-	var xform = physics_state.get_transform()
-	if xform.origin.x > screen_size.x:
-		xform.origin.x = 0
-	if xform.origin.x < 0:
-		xform.origin.x = screen_size.x
-	if xform.origin.y > screen_size.y:
-		xform.origin.y = 0
-	if xform.origin.y < 0:
-		xform.origin.y = screen_size.y	
-	physics_state.set_transform(xform)
+func screen_wrap(transform):
+	if transform.origin.x > screen_size.x:
+		transform.origin.x = 0
+	if transform.origin.x < 0:
+		transform.origin.x = screen_size.x
+	if transform.origin.y > screen_size.y:
+		transform.origin.y = 0
+	if transform.origin.y < 0:
+		transform.origin.y = screen_size.y	
+	return transform
