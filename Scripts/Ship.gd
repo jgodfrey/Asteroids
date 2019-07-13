@@ -27,6 +27,12 @@ func get_input():
 	thrust = Vector2()
 	if Input.is_action_pressed("up"):
 		thrust = Vector2(engine_power, 0)
+		$Flame.show()
+		if not $EngineSound.playing:
+			$EngineSound.play()
+	else:
+		$Flame.hide()
+		$EngineSound.stop()
 
 	# rotate
 	rotation_dir = 0
@@ -52,6 +58,7 @@ func shoot():
 	emit_signal("shoot", Bullet, $Muzzle.global_position, rotation)
 	can_shoot = false
 	$GunTimer.start()
+	$LaserSound.play()
 
 func screen_wrap(transform):
 	if transform.origin.x > screen_size.x:

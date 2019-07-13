@@ -1,7 +1,7 @@
 extends Area2D
 
 export (int) var speed
-export (float) var life_in_seconds
+#export (float) var life_in_seconds
 
 var velocity = Vector2()
 var screen_size = Vector2()
@@ -13,7 +13,8 @@ func start(pos, dir):
 
 func _ready():
 	screen_size = get_viewport().get_visible_rect().size
-	$BulletTimer.wait_time = life_in_seconds
+	# calculate a wait time that allows the shot to live for "1 screen width"
+	$BulletTimer.wait_time = screen_size.x / speed
 	$BulletTimer.start()
 
 func _process(delta):

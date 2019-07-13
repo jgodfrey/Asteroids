@@ -1,0 +1,21 @@
+[remap]
+
+importer="wav"
+type="AudioStreamSample"
+path="res://.import/extraShip.wav-32453259ac90bb73e2822cd55e71023a.sample"
+
+[deps]
+
+source_file="res://Sounds/extraShip.wav"
+dest_files=[ "res://.import/extraShip.wav-32453259ac90bb73e2822cd55e71023a.sample" ]
+
+[params]
+
+force/8_bit=false
+force/mono=false
+force/max_rate=false
+force/max_rate_hz=44100
+edit/trim=true
+edit/normalize=true
+edit/loop=false
+compress/mode=0
