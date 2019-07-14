@@ -25,7 +25,7 @@ func _process(delta):
 func get_input():
 	# move
 	thrust = Vector2()
-	if Input.is_action_pressed("up"):
+	if Input.is_action_pressed("thrust"):
 		thrust = Vector2(engine_power, 0)
 		$Flame.show()
 		if not $EngineSound.playing:

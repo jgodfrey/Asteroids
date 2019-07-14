@@ -1,3 +1,4 @@
-Build/
-asteroids.zip
+Build/Android/
+Build/MacOs/
+Build/Windows/
 .import/
