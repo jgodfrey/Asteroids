@@ -1,10 +1,26 @@
-[gd_scene load_steps=3 format=2]
+[gd_scene load_steps=5 format=2]
 
 [ext_resource path="res://Scripts/Main.gd" type="Script" id=1]
-[ext_resource path="res://Scenes/Ship.tscn" type="PackedScene" id=2]
+[ext_resource path="res://Scenes/Rock.tscn" type="PackedScene" id=2]
+[ext_resource path="res://Scenes/Ship.tscn" type="PackedScene" id=3]
+
+[sub_resource type="Curve2D" id=1]
+_data = {
+"points": PoolVector2Array( 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 800, 0, 0, 0, 0, 0, 800, 610, 0, 0, 0, 0, 800, 610, 0, 0, 0, 0, -10, 610 )
+}
 
 [node name="Main" type="Node"]
 script = ExtResource( 1 )
+Rock = ExtResource( 2 )
 
-[node name="Ship" parent="." instance=ExtResource( 2 )]
+[node name="Ship" parent="." instance=ExtResource( 3 )]
+
+[node name="RockPath" type="Path2D" parent="."]
+position = Vector2( 9.87654, 0 )
+scale = Vector2( 0.987654, 0.983607 )
+curve = SubResource( 1 )
+
+[node name="RockSpawn" type="PathFollow2D" parent="RockPath"]
+
+[node name="Rocks" type="Node" parent="."]
 [connection signal="shoot" from="Ship" to="." method="_on_Ship_shoot"]

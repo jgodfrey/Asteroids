@@ -1,6 +1,8 @@
 extends RigidBody2D
 
 signal shoot
+enum {INIT, ALIVE, INVULNERABLE, DEAD}
+var state = null
 
 export (int) var engine_power
 export (int) var spin_power
@@ -14,6 +16,7 @@ var rotation_dir = 0
 var screen_size = Vector2()
 
 func _ready():
+	change_state(ALIVE)
 	screen_size = get_viewport().get_visible_rect().size
 	position.x = screen_size.x / 2
 	position.y = screen_size.y / 2
@@ -59,7 +62,7 @@ func shoot():
 	can_shoot = false
 	$GunTimer.start()
 	$LaserSound.play()
-
+	
 func screen_wrap(transform):
 	if transform.origin.x > screen_size.x:
 		transform.origin.x = 0
@@ -70,3 +73,16 @@ func screen_wrap(transform):
 	if transform.origin.y < 0:
 		transform.origin.y = screen_size.y	
 	return transform
+
+func change_state(new_state):
+	match new_state:
+		INIT:
+			$CollisionShape2D.disabled = true
+		ALIVE:
+			$CollisionShape2D.disabled = false
+		INVULNERABLE:
+			$CollisionShape2D.disabled = true
+		DEAD:
+			$CollisionShape2D.disabled = true
+	
+	state = new_state

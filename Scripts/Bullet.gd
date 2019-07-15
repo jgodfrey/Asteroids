@@ -28,11 +28,6 @@ func _process(delta):
 	if position.y < 0:
 		position.y = screen_size.y		
 
-func _on_Bullet_body_entered(body):
-	if body.is_in_group('rocks'):
-		body.explode()
-		clean_up()
-
 # --- When the timer runs out, kill the bullet
 func _on_BulletTimer_timeout():
 	clean_up()
@@ -40,3 +35,9 @@ func _on_BulletTimer_timeout():
 # --- remove the bullet from the scene
 func clean_up():
 	queue_free()
+
+
+func _on_Bullet_area_entered(area):
+	if area.is_in_group('rocks'):
+		area.explode()
+		clean_up()
