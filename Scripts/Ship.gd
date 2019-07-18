@@ -24,17 +24,17 @@ func _ready():
 
 func _process(delta):
 	get_input()
-
+	
 func get_input():
 	# move
 	thrust = Vector2()
 	if Input.is_action_pressed("thrust"):
 		thrust = Vector2(engine_power, 0)
-		$Flame.show()
+		$FlameSprite.show()
 		if not $EngineSound.playing:
 			$EngineSound.play()
 	else:
-		$Flame.hide()
+		$FlameSprite.hide()
 		$EngineSound.stop()
 
 	# rotate
@@ -75,14 +75,15 @@ func screen_wrap(transform):
 	return transform
 
 func change_state(new_state):
+	var shape = $CollisionShape2D
 	match new_state:
 		INIT:
-			$CollisionShape2D.disabled = true
+			shape.disabled = true
 		ALIVE:
-			$CollisionShape2D.disabled = false
+			shape.disabled = false
 		INVULNERABLE:
-			$CollisionShape2D.disabled = true
+			shape.disabled = true
 		DEAD:
-			$CollisionShape2D.disabled = true
+			shape.disabled = true
 	
 	state = new_state

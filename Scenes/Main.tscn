@@ -6,7 +6,7 @@
 
 [sub_resource type="Curve2D" id=1]
 _data = {
-"points": PoolVector2Array( 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 800, 0, 0, 0, 0, 0, 800, 610, 0, 0, 0, 0, 800, 610, 0, 0, 0, 0, -10, 610 )
+"points": PoolVector2Array( 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 800, 0, 0, 0, 0, 0, 800, 600, 0, 0, 0, 0, 0, 600, 0, 0, 0, 0, 0, 0 )
 }
 
 [node name="Main" type="Node"]
@@ -16,8 +16,6 @@ Rock = ExtResource( 2 )
 [node name="Ship" parent="." instance=ExtResource( 3 )]
 
 [node name="RockPath" type="Path2D" parent="."]
-position = Vector2( 9.87654, 0 )
-scale = Vector2( 0.987654, 0.983607 )
 curve = SubResource( 1 )
 
 [node name="RockSpawn" type="PathFollow2D" parent="RockPath"]

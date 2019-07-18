@@ -7,35 +7,31 @@
 [ext_resource path="res://Sounds/fire.wav" type="AudioStream" id=5]
 [ext_resource path="res://Sounds/thrust.wav" type="AudioStream" id=6]
 
-[sub_resource type="RectangleShape2D" id=1]
-extents = Vector2( 14.3668, 8.85515 )
+[sub_resource type="ConvexPolygonShape2D" id=1]
+points = PoolVector2Array( 15, 0, -15, -10, -15, 10 )
 
 [node name="Ship" type="RigidBody2D"]
-position = Vector2( 1, 0 )
 script = ExtResource( 1 )
 engine_power = 550
 spin_power = 1750
 Bullet = ExtResource( 2 )
 cool_down = 0.2
 
-[node name="Sprite" type="Sprite" parent="."]
+[node name="ShipSprite" type="Sprite" parent="."]
 texture = ExtResource( 3 )
 
-[node name="Flame" type="Sprite" parent="."]
-position = Vector2( -16, 0 )
+[node name="FlameSprite" type="Sprite" parent="."]
+position = Vector2( -14, 0 )
 texture = ExtResource( 4 )
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="."]
-position = Vector2( 0.0921402, 0 )
 shape = SubResource( 1 )
 
 [node name="Muzzle" type="Position2D" parent="."]
-position = Vector2( 17, -0.4 )
+position = Vector2( 15, 0 )
 
 [node name="GunTimer" type="Timer" parent="."]
 one_shot = true
-
-[node name="Timer" type="Timer" parent="."]
 
 [node name="LaserSound" type="AudioStreamPlayer" parent="."]
 stream = ExtResource( 5 )

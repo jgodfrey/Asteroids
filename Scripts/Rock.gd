@@ -12,7 +12,7 @@ func start(pos, vel, sizeAsString):
 	var rockArray
 	if sizeAsString == "Large":
 		rockArray = rocksLarge
-		_radius = 53
+		_radius = 60
 	elif sizeAsString == "Medium":
 		rockArray = rocksMedium
 		_radius = 23
@@ -29,7 +29,8 @@ func start(pos, vel, sizeAsString):
 
 func explode():
 	#layers = 0
-	$Sprite.hide()
+	queue_free()
+	#$Sprite.hide()
 	
 	
 func _process(delta):
