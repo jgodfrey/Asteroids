@@ -64,14 +64,8 @@ func shoot():
 	$LaserSound.play()
 	
 func screen_wrap(transform):
-	if transform.origin.x > screen_size.x:
-		transform.origin.x = 0
-	if transform.origin.x < 0:
-		transform.origin.x = screen_size.x
-	if transform.origin.y > screen_size.y:
-		transform.origin.y = 0
-	if transform.origin.y < 0:
-		transform.origin.y = screen_size.y	
+	transform.origin.x = wrapf(transform.origin.x, 0, screen_size.x)
+	transform.origin.y = wrapf(transform.origin.y, 0, screen_size.y)
 	return transform
 
 func change_state(new_state):

@@ -34,22 +34,14 @@ func start(pos, vel, size):
 func explode():
 	$Sprite.hide()
 	$CollisionShape2D.set_deferred("disabled", true) # disable as soon as it's safe
-	emit_signal('explode', _size, _radius, position, _velocity)	
+	emit_signal('explode', _size, _radius, position, _velocity)
 	$ExplodeSound.play()
 	#$Sprite.hide()
 	
-	
 func _process(delta):
 	position += _velocity * delta
-	if position.x > screen_size.x + _radius:
-		position.x = -_radius
-	if position.x < 0 - _radius:
-		position.x = screen_size.x + _radius
-	if position.y > screen_size.y + _radius:
-		position.y = -_radius
-	if position.y < 0 - _radius:
-		position.y = screen_size.y + _radius
-
+	position.x = wrapf(position.x, -_radius, screen_size.x + _radius)
+	position.y = wrapf(position.y, -_radius, screen_size.y + _radius); 
 
 func _on_ExplodeSound_finished():
 	queue_free()
