@@ -31,8 +31,11 @@ func spawn_rock(size, pos=null, vel=null):
 	r.start(pos, vel, size)
 	#$Rocks.add_child(r)
 	$Rocks.call_deferred("add_child", r) # add as soon as it's safe
+	
+	# wire necessary signals
 	r.connect('explode', self, '_on_Rock_explode')
-
+	r.connect('ship_dead', $Ship, '_on_Ship_dead')
+	
 func _on_Rock_explode(size, radius, pos, vel):
 	#score += size * 10
 	#$HUD.update_score(score)

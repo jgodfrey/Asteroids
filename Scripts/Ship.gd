@@ -21,6 +21,7 @@ func _ready():
 	position.x = screen_size.x / 2
 	position.y = screen_size.y / 2
 	$GunTimer.wait_time = cool_down
+	
 
 func _process(delta):
 	get_input()
@@ -56,6 +57,9 @@ func _integrate_forces(physics_state):
 
 func _on_GunTimer_timeout():
 	can_shoot = true
+	
+func _on_Ship_dead():
+	queue_free()
 
 func shoot():
 	emit_signal("shoot", Bullet, $Muzzle.global_position, rotation)

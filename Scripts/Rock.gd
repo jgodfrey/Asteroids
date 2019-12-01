@@ -1,5 +1,7 @@
 extends Area2D
 
+signal ship_dead
+
 var screen_size = Vector2()
 var _radius
 var _velocity
@@ -45,3 +47,10 @@ func _process(delta):
 
 func _on_ExplodeSound_finished():
 	queue_free()
+
+func _on_Rock_body_entered(body):
+	# If we collided with the ship, emit the ship_dead signal
+	# The signal is connected between each rock and the ship
+	# in the Main scene as each rock is constructed.
+	if (body.name == "Ship"):
+		emit_signal("ship_dead")
