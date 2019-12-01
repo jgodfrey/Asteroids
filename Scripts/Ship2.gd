@@ -1,9 +1,11 @@
 extends Area2D
 
-export (int) var  TURN_SPEED = 180
-export (int) var  MOVE_SPEED = 200
-const ACC = 0.05
-const DEC = 0.03
+export (int) var TURN_SPEED = 180
+export (int) var MOVE_SPEED = 200
+export (int) var MAX_VELOCITY = 3
+
+export (float) var ACC = 0.05
+export (float) var DEC = 0.02
 
 var velocity = Vector2.ZERO
 
@@ -23,15 +25,24 @@ func _process(delta):
 
 	var moveDir = Vector2(1,0).rotated(rotation)
 
-	if Input.is_action_pressed("thrust") and velocity.length() < 0.05:
-		velocity += moveDir * ACC * delta
+	if Input.is_action_pressed("thrust"):
+		if (velocity.length() < MAX_VELOCITY):
+			velocity += moveDir * ACC
 
-	# scrub some speed (friction)
-	velocity *= 0.985
-	#velocity -= moveDir * DEC * delta
+	# Create a drag vector opposite the current velocity
+	var drag = velocity.normalized() * DEC
+	
+	# If the drag is greater than the velocity, stop the ship's motion
+	# Else, apply the drag
+	if (drag.length() >= velocity.length()):
+		velocity = Vector2.ZERO
+	else:
+		velocity -= drag;
 
-	if (velocity.length() > 0.001):
-		position += velocity * MOVE_SPEED
+	position += velocity * MOVE_SPEED * delta
+	
+	print(position)
 
+	# Wrap the ship around the screen edges
 	position.x = wrapf(position.x, -screen_buffer, screen_size.x + screen_buffer)
 	position.y = wrapf(position.y, -screen_buffer, screen_size.y + screen_buffer)
