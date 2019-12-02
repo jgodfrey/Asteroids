@@ -22,11 +22,9 @@ func _process(delta):
 	if Input.is_action_pressed("right"):
 		rotation_degrees += TURN_SPEED * delta
 
-	var moveDir = Vector2(1,0).rotated(rotation)
-
 	if Input.is_action_pressed("thrust"):
+		var moveDir = Vector2(1,0).rotated(rotation)
 		velocity += moveDir * ACC
-		velocity = velocity.clamped(MAX_SPEED)
 
 	# Create a drag vector opposite the current velocity
 	var drag = velocity.normalized() * DEC
@@ -38,6 +36,10 @@ func _process(delta):
 	else:
 		velocity -= drag;
 
+	# Cap the maximum speed
+	if (velocity.length() > MAX_SPEED):
+		velocity = velocity.normalized() * MAX_SPEED
+		
 	# Finally, apply the calculated velocity * delta (so, for 1 frame)
 	position += velocity * delta
 
