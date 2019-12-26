@@ -1,48 +1,48 @@
 extends Area2D
 
-export (int) var TURN_SPEED = 180 # deg/sec
-export (int) var MAX_SPEED = 500  # pix/sec
+export var rot_speed = PI # 180 deg/sec
+export var thrust = 500
+export var max_vel = 700
+export var friction = 0.65
 
-export (float) var ACC = 10 # pix/sec
-export (float) var DEC = 3  # pix/sec
-
-var velocity = Vector2.ZERO
-
-var screen_size
+var screen_size = Vector2()
 var screen_buffer = 12
+var rot = 0
+var pos = Vector2()
+var vel = Vector2()
+var acc = Vector2()
 
 func _ready():
 	screen_size = get_viewport_rect().size
-	position.x = screen_size.x / 2
-	position.y = screen_size.y / 2
-
+	pos = screen_size / 2
+	set_position(pos)
+	
 func _process(delta):
 	if Input.is_action_pressed("left"):
-		rotation_degrees -= TURN_SPEED * delta
-	if Input.is_action_pressed("right"):
-		rotation_degrees += TURN_SPEED * delta
-
-	if Input.is_action_pressed("thrust"):
-		var moveDir = Vector2(1,0).rotated(rotation)
-		velocity += moveDir * ACC
-
-	# Create a drag vector opposite the current velocity
-	var drag = velocity.normalized() * DEC
-	
-	# If the drag is greater than the velocity, stop the ship's motion
-	# Else, apply the drag
-	if (drag.length() >= velocity.length()):
-		velocity = Vector2.ZERO
-	else:
-		velocity -= drag;
-
-	# Cap the maximum speed
-	if (velocity.length() > MAX_SPEED):
-		velocity = velocity.normalized() * MAX_SPEED
+		rot -= rot_speed * delta	
 		
-	# Finally, apply the calculated velocity * delta (so, for 1 frame)
-	position += velocity * delta
+	if Input.is_action_pressed("right"):
+		rot += rot_speed * delta
+		
+	if Input.is_action_pressed("thrust"):
+		acc = Vector2(thrust, 0).rotated(rot)
+	else:
+		acc = Vector2.ZERO
+	
+	acc += vel * -friction
+	vel += acc * delta
+	
+	# Clamp the maximum velocity
+	vel = vel.clamped(max_vel)
 
-	# Wrap the ship around the screen edges
-	position.x = wrapf(position.x, -screen_buffer, screen_size.x + screen_buffer)
-	position.y = wrapf(position.y, -screen_buffer, screen_size.y + screen_buffer)
+	pos += vel * delta
+	
+	# Screen-wrap if necessary
+	pos.x = wrapf(pos.x, -screen_buffer, screen_size.x + screen_buffer)
+	pos.y = wrapf(pos.y, -screen_buffer, screen_size.y + screen_buffer)
+	
+	# Finally, set the ship's position and rotation
+	position = pos
+	rotation = rot
+	#set_position(pos)
+	#set_rotation(rot)
